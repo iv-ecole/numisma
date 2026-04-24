@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ma Collection — Monnaie de Paris</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --gold: #C9A84C;
+      --gold-light: #E8C97A;
+      --gold-dim: #7A6230;
+      --bg: #0D0D0D;
+      --bg-card: #141414;
+      --bg-elevated: #1A1A1A;
+      --border: rgba(201,168,76,0.18);
+      --text: #F0EDE6;
+      --text-muted: #7A7570;
+      --text-mid: #B0AA9E;
+      --radius: 4px;
+      --shadow: 0 8px 40px rgba(0,0,0,0.6);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(13,13,13,0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem; font-weight: 400; letter-spacing: .08em;
+      color: var(--gold); text-decoration: none;
+    }
+    .logo span { color: var(--text-muted); font-weight: 300; }
+    nav { display: flex; gap: 2rem; }
+    nav a {
+      font-size: .8rem; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--text-muted); text-decoration: none; transition: color .2s;
+    }
+    nav a:hover, nav a.active { color: var(--gold); }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 5rem 2.5rem 4rem;
+      border-bottom: 1px solid var(--border);
+      display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: end;
+      background: radial-gradient(ellipse 60% 50% at 80% 50%, rgba(201,168,76,0.06) 0%, transparent 70%);
+    }
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 5vw, 4.5rem);
+      font-weight: 300; line-height: 1.05; letter-spacing: -.01em;
+    }
+    .hero-title em { font-style: italic; color: var(--gold); }
+    .hero-sub {
+      margin-top: 1rem; color: var(--text-muted); font-size: .9rem; letter-spacing: .04em;
+    }
+
+    /* ── STATS ── */
+    .stats-bar {
+      display: flex; gap: 0; border-bottom: 1px solid var(--border);
+    }
+    .stat {
+      flex: 1; padding: 1.8rem 2.5rem;
+      border-right: 1px solid var(--border);
+      transition: background .2s;
+    }
+    .stat:last-child { border-right: none; }
+    .stat:hover { background: var(--bg-elevated); }
+    .stat-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem; font-weight: 400; color: var(--gold); line-height: 1;
+    }
+    .stat-label {
+      font-size: .72rem; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--text-muted); margin-top: .4rem;
+    }
+
+    /* ── TOOLBAR ── */
+    .toolbar {
+      padding: 1.5rem 2.5rem;
+      display: flex; gap: 1rem; align-items: center;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .search-wrap {
+      flex: 1; min-width: 200px; position: relative;
+    }
+    .search-wrap svg {
+      position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
+      color: var(--text-muted); pointer-events: none;
+    }
+    input[type=search], input[type=text], input[type=number], input[type=date],
+    select, textarea {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: .875rem; font-weight: 300;
+      border-radius: var(--radius);
+      outline: none;
+      transition: border-color .2s;
+    }
+    input[type=search]:focus, input[type=text]:focus, input[type=number]:focus,
+    input[type=date]:focus, select:focus, textarea:focus {
+      border-color: var(--gold);
+    }
+    input[type=search] { width: 100%; padding: .65rem 1rem .65rem 2.6rem; }
+    select { padding: .65rem 1rem; cursor: pointer; }
+    select option { background: var(--bg-elevated); }
+
+    .btn {
+      padding: .65rem 1.4rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .78rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+      border: none; border-radius: var(--radius); cursor: pointer; transition: all .2s;
+      text-decoration: none; display: inline-flex; align-items: center; gap: .5rem;
+    }
+    .btn-primary {
+      background: var(--gold); color: #000;
+    }
+    .btn-primary:hover { background: var(--gold-light); }
+    .btn-ghost {
+      background: transparent; color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ── GRID ── */
+    .grid-area { padding: 2.5rem; }
+    .coins-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5px;
+    }
+    .empty-state {
+      grid-column: 1/-1; text-align: center;
+      padding: 6rem 2rem; color: var(--text-muted);
+    }
+    .empty-state .icon { font-size: 3rem; margin-bottom: 1rem; opacity: .3; }
+    .empty-state p { font-size: .9rem; margin-bottom: 1.5rem; }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      overflow: hidden; cursor: pointer;
+      transition: transform .25s, border-color .25s, box-shadow .25s;
+      position: relative;
+    }
+    .card::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(201,168,76,.04) 0%, transparent 60%);
+      opacity: 0; transition: opacity .25s;
+    }
+    .card:hover { transform: translateY(-3px); border-color: var(--gold-dim); box-shadow: var(--shadow); }
+    .card:hover::before { opacity: 1; }
+
+    .card-imgs {
+      display: grid; grid-template-columns: 1fr 1fr;
+      aspect-ratio: 2/1; background: #0A0A0A; gap: 1px;
+    }
+    .coin-img {
+      width: 100%; height: 100%; object-fit: contain;
+      padding: .8rem; background: #0A0A0A;
+    }
+    .coin-img-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      background: #0A0A0A; color: var(--text-muted); font-size: 1.8rem; opacity: .25;
+    }
+    .card-body { padding: 1.2rem 1.4rem 1.4rem; }
+    .card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem; font-weight: 400; line-height: 1.3;
+      margin-bottom: .6rem;
+    }
+    .card-meta {
+      display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: .8rem;
+    }
+    .badge {
+      font-size: .65rem; letter-spacing: .1em; text-transform: uppercase;
+      padding: .2rem .55rem; border-radius: 2px;
+      background: rgba(201,168,76,0.1); color: var(--gold);
+      border: 1px solid rgba(201,168,76,0.2);
+    }
+    .badge.metal-ag { background: rgba(192,192,192,.08); color: #C0C0C0; border-color: rgba(192,192,192,.2); }
+    .badge.metal-au { background: rgba(201,168,76,.12); color: var(--gold); border-color: rgba(201,168,76,.25); }
+    .badge.metal-cu { background: rgba(180,100,50,.1); color: #B46432; border-color: rgba(180,100,50,.2); }
+    .card-specs {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: .3rem .8rem; font-size: .75rem; color: var(--text-muted);
+    }
+    .card-specs span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .card-specs strong { color: var(--text-mid); font-weight: 400; }
+
+    /* ── MODAL ── */
+    .overlay {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,.8); backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.5rem; opacity: 0; pointer-events: none; transition: opacity .3s;
+    }
+    .overlay.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      width: 100%; max-width: 820px; max-height: 90vh;
+      overflow-y: auto;
+      transform: translateY(20px); transition: transform .3s;
+    }
+    .overlay.open .modal { transform: translateY(0); }
+
+    .modal-header {
+      padding: 1.8rem 2rem 0;
+      display: flex; justify-content: space-between; align-items: flex-start;
+    }
+    .modal-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem; font-weight: 300; line-height: 1.2;
+    }
+    .modal-close {
+      background: none; border: 1px solid var(--border); color: var(--text-muted);
+      width: 2rem; height: 2rem; border-radius: 50%; cursor: pointer;
+      font-size: 1rem; display: flex; align-items: center; justify-content: center;
+      transition: all .2s; flex-shrink: 0;
+    }
+    .modal-close:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* Detail view */
+    .detail-imgs {
+      display: flex; gap: 1rem; padding: 1.5rem 2rem;
+      background: #0A0A0A; margin: 1.2rem 0;
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    }
+    .detail-img-wrap {
+      flex: 1; display: flex; flex-direction: column; align-items: center; gap: .5rem;
+    }
+    .detail-img-wrap img {
+      max-height: 180px; object-fit: contain; border-radius: 2px;
+    }
+    .detail-img-label { font-size: .65rem; letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); }
+    .detail-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1px; background: var(--border);
+      margin: 0 2rem 2rem; border: 1px solid var(--border);
+    }
+    .detail-field {
+      background: var(--bg-card);
+      padding: .9rem 1.2rem;
+    }
+    .detail-field label {
+      font-size: .65rem; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--text-muted); display: block; margin-bottom: .2rem;
+    }
+    .detail-field span {
+      font-size: .9rem; color: var(--text);
+    }
+
+    /* ── FORM ── */
+    .form-overlay { z-index: 300; }
+    .form-modal {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      width: 100%; max-width: 700px; max-height: 92vh; overflow-y: auto;
+    }
+    .form-header {
+      padding: 1.8rem 2rem 1.2rem;
+      border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      position: sticky; top: 0; background: var(--bg-card); z-index: 1;
+    }
+    .form-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 300;
+    }
+    .form-body { padding: 1.5rem 2rem 2rem; }
+    .form-section {
+      margin-bottom: 1.8rem;
+    }
+    .form-section-title {
+      font-size: .7rem; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1rem;
+      padding-bottom: .5rem; border-bottom: 1px solid var(--border);
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: .9rem; }
+    .form-row.full { grid-template-columns: 1fr; }
+    .form-row.trio { grid-template-columns: 1fr 1fr 1fr; }
+    .field { display: flex; flex-direction: column; gap: .35rem; }
+    .field label { font-size: .72rem; letter-spacing: .08em; color: var(--text-muted); }
+    .field input, .field select, .field textarea {
+      padding: .6rem .9rem; width: 100%;
+    }
+    .field textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+    .img-upload-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: .9rem;
+    }
+    .img-upload {
+      border: 1px dashed var(--border); border-radius: var(--radius);
+      padding: 1.5rem; text-align: center; cursor: pointer;
+      transition: border-color .2s; position: relative; overflow: hidden;
+    }
+    .img-upload:hover { border-color: var(--gold); }
+    .img-upload input[type=file] { display: none; }
+    .img-upload .upload-icon { font-size: 1.5rem; opacity: .3; margin-bottom: .4rem; }
+    .img-upload p { font-size: .72rem; color: var(--text-muted); }
+    .img-upload img { max-height: 100px; object-fit: contain; border-radius: 2px; }
+    .form-actions {
+      display: flex; gap: 1rem; justify-content: flex-end;
+      padding-top: 1rem; border-top: 1px solid var(--border);
+    }
+
+    /* scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    @media (max-width: 600px) {
+      header { padding: 0 1rem; }
+      nav { display: none; }
+      .hero { padding: 3rem 1rem 2rem; grid-template-columns: 1fr; }
+      .stat { padding: 1.2rem 1rem; }
+      .stat-value { font-size: 1.6rem; }
+      .toolbar { padding: 1rem; }
+      .grid-area { padding: 1.5rem 1rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .form-row.trio { grid-template-columns: 1fr 1fr; }
+      .detail-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="#">Collection <span>/ Monnaie de Paris</span></a>
+  <nav>
+    <a href="#collection" class="active">Collection</a>
+    <a href="#" onclick="openForm(); return false;">Ajouter</a>
+    <a href="#stats">Statistiques</a>
+  </nav>
+</header>
+
+<section class="hero" id="collection">
+  <div>
+    <h1 class="hero-title">Ma <em>Collection</em><br>Numismatique</h1>
+    <p class="hero-sub">Monnaie de Paris · Pièces modernes de collection</p>
+  </div>
+  <button class="btn btn-primary" onclick="openForm()">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    Ajouter une pièce
+  </button>
+</section>
+
+<section class="stats-bar" id="stats">
+  <div class="stat">
+    <div class="stat-value" id="stat-total">0</div>
+    <div class="stat-label">Pièces</div>
+  </div>
+  <div class="stat">
+    <div class="stat-value" id="stat-value">0 €</div>
+    <div class="stat-label">Valeur faciale totale</div>
+  </div>
+  <div class="stat">
+    <div class="stat-value" id="stat-cost">0 €</div>
+    <div class="stat-label">Prix d'achat total</div>
+  </div>
+  <div class="stat">
+    <div class="stat-value" id="stat-weight">0 g</div>
+    <div class="stat-label">Poids total</div>
+  </div>
+</section>
+
+<div class="toolbar">
+  <div class="search-wrap">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="search" id="searchInput" placeholder="Rechercher une pièce…" oninput="renderCoins()" />
+  </div>
+  <select id="filterMetal" onchange="renderCoins()">
+    <option value="">Tous les métaux</option>
+    <option value="Argent">Argent</option>
+    <option value="Or">Or</option>
+    <option value="Métal commun">Métal commun</option>
+    <option value="Autre">Autre</option>
+  </select>
+  <select id="filterQuality" onchange="renderCoins()">
+    <option value="">Toutes qualités</option>
+    <option value="BU">BU</option>
+    <option value="BE">BE</option>
+    <option value="Courant">Courant</option>
+    <option value="Circulée">Circulée</option>
+  </select>
+  <select id="sortBy" onchange="renderCoins()">
+    <option value="date_desc">Plus récent</option>
+    <option value="date_asc">Plus ancien</option>
+    <option value="year_desc">Année ↓</option>
+    <option value="year_asc">Année ↑</option>
+    <option value="price_desc">Prix ↓</option>
+    <option value="price_asc">Prix ↑</option>
+  </select>
+</div>
+
+<main class="grid-area">
+  <div class="coins-grid" id="coinsGrid"></div>
+</main>
+
+<!-- Detail modal -->
+<div class="overlay" id="detailOverlay" onclick="closeDetail(event)">
+  <div class="modal" id="detailModal"></div>
+</div>
+
+<!-- Form modal -->
+<div class="overlay form-overlay" id="formOverlay" onclick="closeFormOverlay(event)">
+  <div class="form-modal" id="formModal">
+    <div class="form-header">
+      <h2 id="formTitle">Ajouter une pièce</h2>
+      <button class="modal-close" onclick="closeForm()">✕</button>
+    </div>
+    <div class="form-body">
+
+      <div class="form-section">
+        <div class="form-section-title">Identification</div>
+        <div class="form-row full">
+          <div class="field">
+            <label>Titre *</label>
+            <input type="text" id="f-title" placeholder="ex. Semeuse — 10 €" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label>Année *</label>
+            <input type="number" id="f-year" placeholder="2024" min="1800" max="2100" />
+          </div>
+          <div class="field">
+            <label>Valeur faciale (€) *</label>
+            <input type="number" id="f-facevalue" placeholder="10" step="0.01" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label>Qualité</label>
+            <select id="f-quality">
+              <option value="">— Sélectionner —</option>
+              <option value="BU">BU (Brillant Universel)</option>
+              <option value="BE">BE (Belle Épreuve)</option>
+              <option value="Courant">Courant</option>
+              <option value="Circulée">Circulée</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>État</label>
+            <select id="f-condition">
+              <option value="">— Sélectionner —</option>
+              <option value="Neuf">Neuf</option>
+              <option value="Occasion">Occasion</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-title">Caractéristiques techniques</div>
+        <div class="form-row trio">
+          <div class="field">
+            <label>Métal</label>
+            <select id="f-metal">
+              <option value="">—</option>
+              <option value="Argent">Argent</option>
+              <option value="Or">Or</option>
+              <option value="Métal commun">Métal commun</option>
+              <option value="Autre">Autre</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Titre (‰)</label>
+            <input type="number" id="f-fineness" placeholder="ex. 999" min="1" max="999" />
+          </div>
+          <div class="field">
+            <label>Tirage</label>
+            <input type="number" id="f-mintage" placeholder="ex. 5000" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label>Poids (g)</label>
+            <input type="number" id="f-weight" placeholder="ex. 22.2" step="0.01" />
+          </div>
+          <div class="field">
+            <label>Diamètre (mm)</label>
+            <input type="number" id="f-diameter" placeholder="ex. 37" step="0.1" />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-title">Acquisition</div>
+        <div class="form-row">
+          <div class="field">
+            <label>Prix d'achat (€)</label>
+            <input type="number" id="f-price" placeholder="ex. 59.90" step="0.01" />
+          </div>
+          <div class="field">
+            <label>Date d'achat</label>
+            <input type="date" id="f-buydate" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label>Lieu / site d'achat</label>
+            <input type="text" id="f-seller" placeholder="ex. monnaiedeparis.fr" />
+          </div>
+          <div class="field">
+            <label>Facture</label>
+            <select id="f-invoice">
+              <option value="">—</option>
+              <option value="Oui">Oui</option>
+              <option value="Non">Non</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row full">
+          <div class="field">
+            <label>Anecdote / description</label>
+            <textarea id="f-note" placeholder="Notes, contexte historique…"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-title">Photos</div>
+        <div class="img-upload-row">
+          <div class="img-upload" onclick="document.getElementById('f-img-avers').click()">
+            <input type="file" id="f-img-avers" accept="image/*" onchange="previewImg(this,'prev-avers')" />
+            <div class="upload-icon">🪙</div>
+            <img id="prev-avers" src="" alt="" style="display:none" />
+            <p>Avers (face)</p>
+          </div>
+          <div class="img-upload" onclick="document.getElementById('f-img-revers').click()">
+            <input type="file" id="f-img-revers" accept="image/*" onchange="previewImg(this,'prev-revers')" />
+            <div class="upload-icon">🔄</div>
+            <img id="prev-revers" src="" alt="" style="display:none" />
+            <p>Revers (pile)</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn btn-ghost" onclick="closeForm()">Annuler</button>
+        <button class="btn btn-primary" onclick="saveForm()">Enregistrer la pièce</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── STORAGE ──
+const STORAGE_KEY = 'mdp_collection_v1';
+let coins = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+let editingId = null;
+
+function save() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(coins));
+}
+
+// ── STATS ──
+function updateStats() {
+  document.getElementById('stat-total').textContent = coins.length;
+  const val = coins.reduce((s,c) => s + (parseFloat(c.facevalue)||0), 0);
+  document.getElementById('stat-value').textContent = val.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' €';
+  const cost = coins.reduce((s,c) => s + (parseFloat(c.price)||0), 0);
+  document.getElementById('stat-cost').textContent = cost.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' €';
+  const w = coins.reduce((s,c) => s + (parseFloat(c.weight)||0), 0);
+  document.getElementById('stat-weight').textContent = w.toLocaleString('fr-FR',{minimumFractionDigits:1,maximumFractionDigits:1}) + ' g';
+}
+
+// ── METAL BADGE CLASS ──
+function metalClass(m) {
+  if (!m) return '';
+  if (m === 'Argent') return 'metal-ag';
+  if (m === 'Or') return 'metal-au';
+  if (m === 'Métal commun') return 'metal-cu';
+  return '';
+}
+
+// ── RENDER GRID ──
+function renderCoins() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const fMetal = document.getElementById('filterMetal').value;
+  const fQual = document.getElementById('filterQuality').value;
+  const sort = document.getElementById('sortBy').value;
+
+  let list = coins.filter(c => {
+    if (q && !JSON.stringify(c).toLowerCase().includes(q)) return false;
+    if (fMetal && c.metal !== fMetal) return false;
+    if (fQual && c.quality !== fQual) return false;
+    return true;
+  });
+
+  list.sort((a,b) => {
+    if (sort === 'date_desc') return (b.buydate||'').localeCompare(a.buydate||'');
+    if (sort === 'date_asc') return (a.buydate||'').localeCompare(b.buydate||'');
+    if (sort === 'year_desc') return (b.year||0)-(a.year||0);
+    if (sort === 'year_asc') return (a.year||0)-(b.year||0);
+    if (sort === 'price_desc') return (parseFloat(b.price)||0)-(parseFloat(a.price)||0);
+    if (sort === 'price_asc') return (parseFloat(a.price)||0)-(parseFloat(b.price)||0);
+    return 0;
+  });
+
+  const grid = document.getElementById('coinsGrid');
+  if (list.length === 0) {
+    grid.innerHTML = `<div class="empty-state"><div class="icon">🪙</div><p>${coins.length===0?'Votre collection est vide. Ajoutez votre première pièce !':'Aucune pièce ne correspond à vos critères.'}</p><button class="btn btn-primary" onclick="openForm()">Ajouter une pièce</button></div>`;
+    updateStats(); return;
+  }
+
+  grid.innerHTML = list.map(c => `
+    <article class="card" onclick="openDetail('${c.id}')">
+      <div class="card-imgs">
+        ${c.imgAvers ? `<img class="coin-img" src="${c.imgAvers}" alt="Avers" />` : `<div class="coin-img-placeholder">A</div>`}
+        ${c.imgRevers ? `<img class="coin-img" src="${c.imgRevers}" alt="Revers" />` : `<div class="coin-img-placeholder">R</div>`}
+      </div>
+      <div class="card-body">
+        <div class="card-title">${c.title}</div>
+        <div class="card-meta">
+          ${c.year ? `<span class="badge">${c.year}</span>` : ''}
+          ${c.quality ? `<span class="badge">${c.quality}</span>` : ''}
+          ${c.metal ? `<span class="badge ${metalClass(c.metal)}">${c.metal}</span>` : ''}
+        </div>
+        <div class="card-specs">
+          ${c.facevalue ? `<span><strong>Faciale</strong> ${parseFloat(c.facevalue).toLocaleString('fr-FR')} €</span>` : ''}
+          ${c.price ? `<span><strong>Achat</strong> ${parseFloat(c.price).toLocaleString('fr-FR',{minimumFractionDigits:2})} €</span>` : ''}
+          ${c.weight ? `<span><strong>Poids</strong> ${c.weight} g</span>` : ''}
+          ${c.mintage ? `<span><strong>Tirage</strong> ${parseInt(c.mintage).toLocaleString('fr-FR')}</span>` : ''}
+        </div>
+      </div>
+    </article>
+  `).join('');
+  updateStats();
+}
+
+// ── DETAIL ──
+function openDetail(id) {
+  const c = coins.find(x => x.id === id);
+  if (!c) return;
+  const m = document.getElementById('detailModal');
+  m.innerHTML = `
+    <div class="modal-header">
+      <div>
+        <div class="modal-title">${c.title}</div>
+        <div class="card-meta" style="margin-top:.6rem">
+          ${c.year ? `<span class="badge">${c.year}</span>` : ''}
+          ${c.quality ? `<span class="badge">${c.quality}</span>` : ''}
+          ${c.metal ? `<span class="badge ${metalClass(c.metal)}">${c.metal}</span>` : ''}
+          ${c.condition ? `<span class="badge">${c.condition}</span>` : ''}
+        </div>
+      </div>
+      <button class="modal-close" onclick="closeDetail()">✕</button>
+    </div>
+    <div class="detail-imgs">
+      <div class="detail-img-wrap">
+        ${c.imgAvers ? `<img src="${c.imgAvers}" alt="Avers" />` : `<div style="height:140px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);opacity:.2;font-size:3rem">A</div>`}
+        <span class="detail-img-label">Avers</span>
+      </div>
+      <div class="detail-img-wrap">
+        ${c.imgRevers ? `<img src="${c.imgRevers}" alt="Revers" />` : `<div style="height:140px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);opacity:.2;font-size:3rem">R</div>`}
+        <span class="detail-img-label">Revers</span>
+      </div>
+    </div>
+    <div class="detail-grid">
+      ${field('Année', c.year)}
+      ${field('Valeur faciale', c.facevalue ? parseFloat(c.facevalue).toLocaleString('fr-FR',{minimumFractionDigits:2}) + ' €' : '')}
+      ${field('Qualité', c.quality)}
+      ${field('Métal', c.metal)}
+      ${field('Titre', c.fineness ? c.fineness + ' ‰' : '')}
+      ${field('Poids', c.weight ? c.weight + ' g' : '')}
+      ${field('Diamètre', c.diameter ? c.diameter + ' mm' : '')}
+      ${field('Tirage', c.mintage ? parseInt(c.mintage).toLocaleString('fr-FR') + ' ex.' : '')}
+      ${field('État', c.condition)}
+      ${field('Facture', c.invoice)}
+      ${field("Prix d'achat", c.price ? parseFloat(c.price).toLocaleString('fr-FR',{minimumFractionDigits:2}) + ' €' : '')}
+      ${field("Date d'achat", c.buydate ? new Date(c.buydate).toLocaleDateString('fr-FR') : '')}
+      ${field("Lieu d'achat", c.seller)}
+    </div>
+    ${c.note ? `<div style="padding:0 2rem 1.5rem;color:var(--text-muted);font-size:.85rem;font-style:italic;line-height:1.7">"${c.note}"</div>` : ''}
+    <div style="padding:1rem 2rem 1.8rem;display:flex;gap:.8rem;justify-content:flex-end;border-top:1px solid var(--border)">
+      <button class="btn btn-ghost" onclick="deleteConfirm('${c.id}')">Supprimer</button>
+      <button class="btn btn-primary" onclick="editCoin('${c.id}')">Modifier</button>
+    </div>
+  `;
+  document.getElementById('detailOverlay').classList.add('open');
+}
+
+function field(label, val) {
+  if (!val && val !== 0) return '';
+  return `<div class="detail-field"><label>${label}</label><span>${val}</span></div>`;
+}
+
+function closeDetail(e) {
+  if (e && e.target !== document.getElementById('detailOverlay')) return;
+  document.getElementById('detailOverlay').classList.remove('open');
+}
+
+// ── FORM ──
+function openForm() {
+  editingId = null;
+  document.getElementById('formTitle').textContent = 'Ajouter une pièce';
+  clearForm();
+  document.getElementById('formOverlay').classList.add('open');
+}
+
+function closeForm() {
+  document.getElementById('formOverlay').classList.remove('open');
+}
+function closeFormOverlay(e) {
+  if (e.target === document.getElementById('formOverlay')) closeForm();
+}
+
+function clearForm() {
+  ['f-title','f-year','f-facevalue','f-quality','f-condition','f-metal','f-fineness',
+   'f-mintage','f-weight','f-diameter','f-price','f-buydate','f-seller','f-invoice','f-note']
+    .forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+  ['prev-avers','prev-revers'].forEach(id => {
+    const img = document.getElementById(id);
+    img.src = ''; img.style.display = 'none';
+  });
+  document.getElementById('f-img-avers').value = '';
+  document.getElementById('f-img-revers').value = '';
+}
+
+function editCoin(id) {
+  const c = coins.find(x => x.id === id);
+  if (!c) return;
+  editingId = id;
+  closeDetail();
+  document.getElementById('formTitle').textContent = 'Modifier la pièce';
+  const map = {
+    'f-title': c.title, 'f-year': c.year, 'f-facevalue': c.facevalue,
+    'f-quality': c.quality, 'f-condition': c.condition, 'f-metal': c.metal,
+    'f-fineness': c.fineness, 'f-mintage': c.mintage, 'f-weight': c.weight,
+    'f-diameter': c.diameter, 'f-price': c.price, 'f-buydate': c.buydate,
+    'f-seller': c.seller, 'f-invoice': c.invoice, 'f-note': c.note
+  };
+  Object.entries(map).forEach(([id, val]) => {
+    const el = document.getElementById(id);
+    if (el && val !== undefined) el.value = val;
+  });
+  if (c.imgAvers) { document.getElementById('prev-avers').src = c.imgAvers; document.getElementById('prev-avers').style.display = 'block'; }
+  if (c.imgRevers) { document.getElementById('prev-revers').src = c.imgRevers; document.getElementById('prev-revers').style.display = 'block'; }
+  document.getElementById('formOverlay').classList.add('open');
+}
+
+function previewImg(input, previewId) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = document.getElementById(previewId);
+    img.src = e.target.result;
+    img.style.display = 'block';
+    img.previousElementSibling && img.previousElementSibling.classList.contains('upload-icon') &&
+      (img.previousElementSibling.style.display = 'none');
+  };
+  reader.readAsDataURL(file);
+}
+
+async function getImgData(inputId, previewId, existingData) {
+  const input = document.getElementById(inputId);
+  if (input.files && input.files[0]) {
+    return await new Promise(res => {
+      const r = new FileReader();
+      r.onload = e => res(e.target.result);
+      r.readAsDataURL(input.files[0]);
+    });
+  }
+  return existingData || '';
+}
+
+async function saveForm() {
+  const title = document.getElementById('f-title').value.trim();
+  if (!title) { alert('Le titre est obligatoire.'); return; }
+
+  const imgAvers = await getImgData('f-img-avers', 'prev-avers', editingId ? coins.find(x=>x.id===editingId)?.imgAvers : '');
+  const imgRevers = await getImgData('f-img-revers', 'prev-revers', editingId ? coins.find(x=>x.id===editingId)?.imgRevers : '');
+
+  const coin = {
+    id: editingId || crypto.randomUUID(),
+    title,
+    year: document.getElementById('f-year').value,
+    facevalue: document.getElementById('f-facevalue').value,
+    quality: document.getElementById('f-quality').value,
+    condition: document.getElementById('f-condition').value,
+    metal: document.getElementById('f-metal').value,
+    fineness: document.getElementById('f-fineness').value,
+    mintage: document.getElementById('f-mintage').value,
+    weight: document.getElementById('f-weight').value,
+    diameter: document.getElementById('f-diameter').value,
+    price: document.getElementById('f-price').value,
+    buydate: document.getElementById('f-buydate').value,
+    seller: document.getElementById('f-seller').value,
+    invoice: document.getElementById('f-invoice').value,
+    note: document.getElementById('f-note').value,
+    imgAvers, imgRevers,
+    createdAt: editingId ? coins.find(x=>x.id===editingId)?.createdAt : new Date().toISOString()
+  };
+
+  if (editingId) {
+    const idx = coins.findIndex(x => x.id === editingId);
+    coins[idx] = coin;
+  } else {
+    coins.unshift(coin);
+  }
+  save();
+  closeForm();
+  renderCoins();
+}
+
+function deleteConfirm(id) {
+  if (confirm('Supprimer cette pièce de la collection ?')) {
+    coins = coins.filter(x => x.id !== id);
+    save();
+    document.getElementById('detailOverlay').classList.remove('open');
+    renderCoins();
+  }
+}
+
+// ── INIT ──
+renderCoins();
+</script>
+</body>
+</html>
