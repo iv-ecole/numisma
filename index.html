@@ -327,43 +327,6 @@
     .kpi-label { font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: .3rem; }
     .kpi-value { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: var(--gold); line-height: 1; }
     .kpi-sub { font-size: .7rem; color: var(--text-muted); margin-top: .2rem; }
-    /* ══ BURGER MENU ══ */
-    .desktop-only { display: inline-flex; }
-    .btn-burger {
-      display: none;
-      flex-direction: column; justify-content: center; align-items: center;
-      gap: 4px; width: 34px; height: 34px;
-      background: transparent; border: 1px solid var(--border);
-      border-radius: var(--radius); cursor: pointer; padding: 0;
-      transition: border-color .2s;
-    }
-    .btn-burger:hover { border-color: var(--gold); }
-    .btn-burger span {
-      display: block; width: 14px; height: 1.5px;
-      background: var(--text-muted); border-radius: 2px;
-      transition: background .2s;
-    }
-    .btn-burger:hover span { background: var(--gold); }
-    .mobile-menu {
-      display: none;
-      position: fixed; top: 50px; right: 0; left: 0; z-index: 99;
-      background: var(--bg-card);
-      border-bottom: 1px solid var(--border);
-      flex-direction: column;
-      box-shadow: 0 8px 24px rgba(0,0,0,.5);
-    }
-    .mobile-menu.open { display: flex; }
-    .mobile-menu-item {
-      width: 100%; padding: 1rem 1.4rem;
-      background: transparent; border: none; border-bottom: 1px solid var(--border);
-      color: var(--text-mid); font-family: 'DM Sans', sans-serif;
-      font-size: .82rem; font-weight: 400; letter-spacing: .06em;
-      text-align: left; cursor: pointer; transition: background .15s, color .15s;
-    }
-    .mobile-menu-item:last-child { border-bottom: none; }
-    .mobile-menu-item:hover { background: var(--bg-elevated); color: var(--gold); }
-    .mobile-menu-logout { color: var(--text-muted); }
-
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
@@ -373,10 +336,9 @@
       .topbar { padding: 0 .9rem; height: 50px; }
       .topbar-logo { font-size: 1.05rem; }
       .user-chip-name { display: none; }
-      .topbar-right { gap: .4rem; }
+      .btn-top { padding: .25rem .5rem; font-size: .62rem; letter-spacing: .04em; }
+      .topbar-right { gap: .35rem; }
       .user-chip { padding: .25rem .55rem; }
-      .desktop-only { display: none !important; }
-      .btn-burger { display: flex; }
 
       /* Auth */
       .auth-box { padding: 1.8rem 1.2rem; margin: 1rem; max-width: calc(100vw - 2rem); }
@@ -488,7 +450,7 @@
       </div>
       <div class="auth-field">
         <label>Mot de passe</label>
-        <input type="password" id="r-pass" placeholder="Min. 6 caractères" autocomplete="new-password" />
+        <input type="password" id="r-pass" placeholder="min. 6 caractères" autocomplete="new-password" />
       </div>
       <div class="auth-field">
         <label>Confirmer le mot de passe</label>
@@ -511,21 +473,10 @@
         <span class="user-chip-name" id="tbUser">—</span>
         <span class="role-pill" id="tbRole">visiteur</span>
       </div>
-      <!-- Boutons desktop -->
-      <button class="btn-top desktop-only" id="adminBtn" style="display:none" onclick="openAdmin()">⚙ Utilisateurs</button>
-      <button class="btn-top desktop-only" onclick="openStats()">📊 Statistiques</button>
-      <button class="btn-top desktop-only" onclick="doLogout()">Déconnexion</button>
-      <!-- Menu burger mobile -->
-      <button class="btn-burger" id="burgerBtn" onclick="toggleMenu()" aria-label="Menu">
-        <span></span><span></span><span></span>
-      </button>
+      <button class="btn-top" id="adminBtn" style="display:none" onclick="openAdmin()">⚙ Utilisateurs</button>
+      <button class="btn-top" onclick="openStats()">📊 Statistiques</button>
+      <button class="btn-top" onclick="doLogout()">Déconnexion</button>
     </div>
-  </div>
-  <!-- Menu mobile déroulant -->
-  <div class="mobile-menu" id="mobileMenu">
-    <button class="mobile-menu-item" id="mAdminBtn" style="display:none" onclick="closeMenu();openAdmin()">⚙ Utilisateurs</button>
-    <button class="mobile-menu-item" onclick="closeMenu();openStats()">📊 Statistiques</button>
-    <button class="mobile-menu-item mobile-menu-logout" onclick="closeMenu();doLogout()">Déconnexion</button>
   </div>
 
   <!-- HERO -->
@@ -726,11 +677,7 @@ async function sb(path, opts = {}) {
       ...(opts.headers || {})
     }
   });
-  if (!res.ok) {
-    const txt = await res.text();
-    console.error('[Supabase]', res.status, txt);
-    throw new Error(`Supabase ${res.status}: ${txt}`);
-  }
+  if (!res.ok) throw new Error(await res.text());
   if (res.status === 204) return null;
   return res.json();
 }
@@ -877,9 +824,8 @@ function showApp() {
   pill.textContent = currentUser.role;
   pill.className   = `role-pill ${currentUser.role}`;
 
-  document.getElementById('adminBtn').style.display  = isAdmin() ? '' : 'none';
-  document.getElementById('mAdminBtn').style.display = isAdmin() ? '' : 'none';
-  document.getElementById('addBtn').style.display    = isAdmin() ? '' : 'none';
+  document.getElementById('adminBtn').style.display = isAdmin() ? '' : 'none';
+  document.getElementById('addBtn').style.display   = isAdmin() ? '' : 'none';
 
   loadCoins();
 }
@@ -888,50 +834,33 @@ function showApp() {
 //  INIT
 // ══════════════════════════════════════════════
 async function init() {
-  // Sécurité : masquer le loader dans TOUS les cas après 5s max
-  const hideLoader = () => {
-    const lo = document.getElementById('loadingOverlay');
-    if (lo) { lo.style.opacity = '0'; setTimeout(() => lo.remove(), 400); }
-  };
-  const safetyTimer = setTimeout(hideLoader, 5000);
-
-  try {
-    const saved = localStorage.getItem(SESSION_KEY);
-    if (saved) {
-      try {
-        const cached = JSON.parse(saved);
-        // Rafraîchir depuis Supabase avec timeout 4s
-        const controller = new AbortController();
-        const tout = setTimeout(() => controller.abort(), 4000);
-        try {
-          const fresh = await sb(`${USERS_TABLE}?id=eq.${cached.id}&select=*`);
-          clearTimeout(tout);
-          if (fresh?.length) {
-            currentUser = fresh[0];
-            localStorage.setItem(SESSION_KEY, JSON.stringify(currentUser));
-            showApp();
-          } else {
-            localStorage.removeItem(SESSION_KEY);
-            document.getElementById('authScreen').classList.add('show');
-          }
-        } catch {
-          clearTimeout(tout);
-          // Réseau indispo → utiliser le cache local
-          currentUser = cached;
-          showApp();
-        }
-      } catch {
-        // JSON corrompu
+  const saved = localStorage.getItem(SESSION_KEY);
+  if (saved) {
+    try {
+      const cached = JSON.parse(saved);
+      // Rafraîchir depuis Supabase (au cas où le rôle a changé)
+      const fresh = await sb(`${USERS_TABLE}?id=eq.${cached.id}&select=*`);
+      if (fresh?.length) {
+        currentUser = fresh[0];
+        localStorage.setItem(SESSION_KEY, JSON.stringify(currentUser));
+        showApp();
+      } else {
+        // Compte introuvable
         localStorage.removeItem(SESSION_KEY);
         document.getElementById('authScreen').classList.add('show');
       }
-    } else {
-      document.getElementById('authScreen').classList.add('show');
+    } catch {
+      // Pas de réseau ? On utilise le cache
+      currentUser = JSON.parse(saved);
+      showApp();
     }
-  } finally {
-    clearTimeout(safetyTimer);
-    hideLoader();
+  } else {
+    document.getElementById('authScreen').classList.add('show');
   }
+
+  const lo = document.getElementById('loadingOverlay');
+  lo.style.opacity = '0';
+  setTimeout(() => lo.remove(), 400);
 }
 
 // ══════════════════════════════════════════════
@@ -1257,25 +1186,6 @@ async function changeRole(userId, newRole) {
     await loadUsers(); // re-sync
   }
 }
-
-// ══════════════════════════════════════════════
-//  BURGER MENU
-// ══════════════════════════════════════════════
-function toggleMenu() {
-  const m = document.getElementById('mobileMenu');
-  m.classList.toggle('open');
-}
-function closeMenu() {
-  document.getElementById('mobileMenu').classList.remove('open');
-}
-// Fermer le menu si on clique ailleurs
-document.addEventListener('click', e => {
-  const menu   = document.getElementById('mobileMenu');
-  const burger = document.getElementById('burgerBtn');
-  if (menu && burger && !menu.contains(e.target) && !burger.contains(e.target)) {
-    menu.classList.remove('open');
-  }
-});
 
 // ══════════════════════════════════════════════
 //  STATS AVANCÉES
