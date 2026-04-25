@@ -327,64 +327,81 @@
     .kpi-label { font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: .3rem; }
     .kpi-value { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: var(--gold); line-height: 1; }
     .kpi-sub { font-size: .7rem; color: var(--text-muted); margin-top: .2rem; }
-    @media (max-width: 640px) {
-      .charts-grid { grid-template-columns: 1fr; margin: 1rem; }
-      .stats-kpi-row { grid-template-columns: 1fr 1fr; margin: 0 1rem 1.5rem; }
-      .stats-modal-header { padding: 1.2rem 1rem; }
-    }
-
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
     @media (max-width: 640px) {
       /* Topbar */
-      .topbar { padding: 0 1rem; height: 50px; }
-      .topbar-logo { font-size: 1.1rem; }
+      .topbar { padding: 0 .9rem; height: 50px; }
+      .topbar-logo { font-size: 1.05rem; }
       .user-chip-name { display: none; }
-      .btn-top { padding: .28rem .55rem; font-size: .65rem; }
-      .topbar-right { gap: .45rem; }
+      .btn-top { padding: .25rem .5rem; font-size: .62rem; letter-spacing: .04em; }
+      .topbar-right { gap: .35rem; }
+      .user-chip { padding: .25rem .55rem; }
+
+      /* Auth */
+      .auth-box { padding: 1.8rem 1.2rem; margin: 1rem; max-width: calc(100vw - 2rem); }
+
       /* Hero */
-      .hero { padding: 2.2rem 1.2rem 1.8rem; grid-template-columns: 1fr; gap: 1.2rem; background: none; }
-      .hero-title { font-size: 2.2rem; }
-      .hero-sub { font-size: .8rem; margin-top: .4rem; }
+      .hero { padding: 2rem 1.2rem 1.6rem; grid-template-columns: 1fr; gap: 1rem; background: none; }
+      .hero-title { font-size: 2rem; }
+      .hero-sub { font-size: .8rem; margin-top: .3rem; }
       #addBtn { width: 100%; justify-content: center; }
-      /* Stats 2x2 */
+
+      /* Stats bar 2x2 */
       .stats-bar { flex-wrap: wrap; }
-      .stat { flex: 1 1 calc(50% - 1px); padding: 1rem 1.2rem; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); min-width: 0; }
+      .stat { flex: 1 1 50%; padding: .9rem 1rem; min-width: 0; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
       .stat:nth-child(2) { border-right: none; }
       .stat:nth-child(3) { border-bottom: none; }
       .stat:nth-child(4) { border-right: none; border-bottom: none; }
-      .stat-value { font-size: 1.5rem; }
-      .stat-label { font-size: .62rem; }
-      /* Toolbar colonne */
-      .toolbar { padding: .9rem 1rem; flex-direction: column; align-items: stretch; gap: .6rem; }
-      .search-wrap { min-width: 0; }
+      .stat-value { font-size: 1.35rem; }
+      .stat-label { font-size: .6rem; }
+
+      /* Toolbar en colonne */
+      .toolbar { padding: .8rem 1rem; flex-direction: column; align-items: stretch; gap: .55rem; }
+      .search-wrap { min-width: 0; width: 100%; }
       .toolbar select { width: 100%; }
-      /* Grid 1 col */
-      .grid-area { padding: 1rem; }
+
+      /* Grille 1 colonne */
+      .grid-area { padding: .8rem; }
       .coins-grid { grid-template-columns: 1fr; gap: 1px; }
-      /* Form */
-      .form-body { padding: 1.2rem 1rem 1.5rem; }
-      .form-header { padding: 1.2rem 1rem .9rem; }
+
+      /* Formulaire */
+      .form-body { padding: 1rem .9rem 1.4rem; }
+      .form-header { padding: 1.1rem 1rem .85rem; }
       .form-row { grid-template-columns: 1fr; }
       .form-row.trio { grid-template-columns: 1fr 1fr; }
-      .form-actions { flex-direction: column-reverse; }
+      .form-actions { flex-direction: column-reverse; gap: .6rem; }
       .form-actions .btn { width: 100%; justify-content: center; }
-      .img-upload-row { grid-template-columns: 1fr 1fr; }
-      /* Detail modal bottom sheet */
-      .modal { border-radius: 12px 12px 0 0; max-height: 95vh; }
-      .overlay { padding: 0; align-items: flex-end; }
-      .detail-grid { grid-template-columns: 1fr; margin: 0 1rem 1.5rem; }
-      .modal-header { padding: 1.3rem 1.2rem 0; }
-      .detail-imgs { padding: 1.2rem; gap: .8rem; }
-      .detail-imgs > div > img { max-height: 120px; }
+      .img-upload-row { grid-template-columns: 1fr 1fr; gap: .6rem; }
+      .img-upload { padding: 1rem; }
+
+      /* Modaux — centré normal sur mobile, pas de bottom sheet */
+      .overlay { padding: .8rem; align-items: center; }
+      .modal { border-radius: 8px; max-height: 92vh; }
+      .form-modal { border-radius: 8px; max-height: 92vh; }
+      .admin-modal { border-radius: 8px; max-height: 92vh; }
+      .stats-modal { border-radius: 8px; max-height: 92vh; }
+
+      /* Détail */
+      .detail-grid { grid-template-columns: 1fr; margin: 0 .8rem 1.2rem; }
+      .modal-header { padding: 1.2rem 1rem 0; }
+      .detail-imgs { padding: 1rem; gap: .7rem; }
+      .detail-imgs > div > img { max-height: 110px; }
+
       /* Admin */
-      .admin-modal { border-radius: 12px 12px 0 0; max-height: 95vh; }
-      .user-row { padding: .85rem 1.2rem; flex-wrap: wrap; gap: .5rem; }
+      .user-row { padding: .8rem 1rem; flex-wrap: wrap; gap: .4rem; }
       .user-row-date { width: 100%; order: 3; }
+
+      /* Stats avancées */
+      .charts-grid { grid-template-columns: 1fr; margin: .8rem; gap: 1px; }
+      .stats-kpi-row { grid-template-columns: 1fr 1fr; margin: .8rem .8rem 0; }
+      .stats-modal-header { padding: 1.1rem 1rem; }
+      .chart-cell { padding: 1.1rem 1rem; }
+
       /* Toast */
-      #toast-container { right: .8rem; bottom: .8rem; left: .8rem; }
+      #toast-container { right: .7rem; bottom: .7rem; left: .7rem; }
       .toast { min-width: 0; max-width: 100%; }
     }
   </style>
@@ -466,7 +483,7 @@
   <section class="hero">
     <div>
       <h1 class="hero-title">Ma <em>Collection</em><br>Numismatique</h1>
-      <p class="hero-sub">Version 3.0</p>
+      <p class="hero-sub">Version 2.4</p>
     </div>
     <button class="btn btn-primary" id="addBtn" style="display:none" onclick="openForm()">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -734,7 +751,7 @@ async function doRegister() {
   try {
     // Vérifier si le username est déjà pris
     const existing = await sb(`${USERS_TABLE}?username=eq.${encodeURIComponent(username)}&select=id`);
-    if (existing?.length) { showToast({type:'error',title:'Nom déjà pris',message:'Ce pseudo est déjà utilisé.'}); return; }
+    if (existing?.length) { showToast({type:'error',title:'Nom déjà pris',message:'Ce nom d'utilisateur est déjà utilisé.'}); return; }
 
     const hashed = await hash(pass);
     const role   = username === ADMIN_NAME ? 'admin' : 'visiteur';
@@ -1194,27 +1211,32 @@ function renderStats() {
   }
 
   const qty = c => parseInt(c.quantity) || 1;
-  const total     = coins.reduce((s,c) => s + qty(c), 0);
-  const totalVal  = coins.reduce((s,c) => s + (parseFloat(c.facevalue)||0)*qty(c), 0);
-  const totalCost = coins.reduce((s,c) => s + (parseFloat(c.price)||0)*qty(c), 0);
-  const totalW    = coins.reduce((s,c) => s + (parseFloat(c.weight)||0)*qty(c), 0);
+  // Filtrer les entrées vides éventuelles
+  const validCoins = coins.filter(c => c.title && c.title.trim());
+  const total      = validCoins.reduce((s,c) => s + qty(c), 0);
+  const totalVal  = validCoins.reduce((s,c) => s + (parseFloat(c.facevalue)||0)*qty(c), 0);
+  const totalCost = validCoins.reduce((s,c) => s + (parseFloat(c.price)||0)*qty(c), 0);
+  const totalW    = validCoins.reduce((s,c) => s + (parseFloat(c.weight)||0)*qty(c), 0);
   const fmt = (v,d=2) => v.toLocaleString('fr-FR',{minimumFractionDigits:d,maximumFractionDigits:d});
 
   // KPI row
-  const avgPrice = totalCost / total;
-  const forSale  = coins.filter(c => c.selling_price).length;
+  const avgPrice = total > 0 ? totalCost / total : 0;
+  const forSale  = validCoins.filter(c => c.selling_price).length;
   document.getElementById('statsKpi').innerHTML = `
-    <div class="kpi"><div class="kpi-label">Exemplaires</div><div class="kpi-value">${total}</div><div class="kpi-sub">${coins.length} référence${coins.length>1?'s':''}</div></div>
+    <div class="kpi"><div class="kpi-label">Exemplaires</div><div class="kpi-value">${total}</div><div class="kpi-sub">${validCoins.length} référence${validCoins.length>1?'s':''}</div></div>
     <div class="kpi"><div class="kpi-label">Valeur faciale</div><div class="kpi-value">${fmt(totalVal)} €</div><div class="kpi-sub">moy. ${fmt(totalVal/total)} € / pièce</div></div>
     <div class="kpi"><div class="kpi-label">Investi</div><div class="kpi-value">${fmt(totalCost)} €</div><div class="kpi-sub">moy. ${fmt(avgPrice)} € / pièce</div></div>
     <div class="kpi"><div class="kpi-label">Poids total</div><div class="kpi-value">${fmt(totalW,1)} g</div><div class="kpi-sub">${forSale} pièce${forSale>1?'s':''} en vente</div></div>
   `;
 
-  // Grouping helper
-  function group(key, labelFn) {
+  // Grouping helper — ignore les champs vides
+  function group(key) {
     const map = {};
-    coins.forEach(c => {
-      const k = (labelFn ? labelFn(c) : c[key]) || 'Non renseigné';
+    validCoins.forEach(c => {
+      const raw = c[key];
+      if (!raw && raw !== 0) return; // ignorer si vide/null
+      const k = String(raw).trim();
+      if (!k) return;
       map[k] = (map[k]||0) + qty(c);
     });
     return Object.entries(map).sort((a,b)=>b[1]-a[1]);
