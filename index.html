@@ -327,6 +327,118 @@
     .kpi-label { font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: .3rem; }
     .kpi-value { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: var(--gold); line-height: 1; }
     .kpi-sub { font-size: .7rem; color: var(--text-muted); margin-top: .2rem; }
+    /* ══ VENDU / ACHAT ══ */
+    .badge-sold {
+      font-size: .62rem; letter-spacing: .12em; text-transform: uppercase;
+      padding: .2rem .55rem; border-radius: 2px; font-weight: 500;
+      background: rgba(192,57,43,.12); color: #E74C3C;
+      border: 1px solid rgba(192,57,43,.3);
+    }
+    .card-sold-overlay {
+      position: absolute; inset: 0; z-index: 2;
+      background: rgba(13,13,13,.55);
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none;
+    }
+    .card-sold-stamp {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem; font-weight: 600; letter-spacing: .2em;
+      color: #E74C3C; border: 2px solid #E74C3C;
+      padding: .2rem .8rem; border-radius: 3px;
+      transform: rotate(-18deg); opacity: .85;
+    }
+    .btn-buy {
+      width: 100%; padding: .75rem; margin-top: .5rem;
+      background: var(--gold); color: #000; border: none; border-radius: var(--radius);
+      font-family: 'DM Sans', sans-serif; font-size: .8rem; font-weight: 500;
+      letter-spacing: .1em; text-transform: uppercase; cursor: pointer; transition: all .2s;
+      display: flex; align-items: center; justify-content: center; gap: .5rem;
+    }
+    .btn-buy:hover { background: var(--gold-light); }
+    .btn-sold-label {
+      width: 100%; padding: .65rem; margin-top: .5rem;
+      background: rgba(192,57,43,.08); color: #E74C3C;
+      border: 1px solid rgba(192,57,43,.25); border-radius: var(--radius);
+      font-family: 'DM Sans', sans-serif; font-size: .75rem; font-weight: 500;
+      letter-spacing: .1em; text-transform: uppercase;
+      display: flex; align-items: center; justify-content: center; gap: .5rem;
+    }
+    /* ══ MODAL ACHAT ══ */
+    .buy-overlay { z-index: 900; }
+    .buy-modal {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px;
+      width: 100%; max-width: 420px;
+      transform: translateY(20px); transition: transform .3s;
+    }
+    .overlay.open .buy-modal { transform: translateY(0); }
+    .buy-header {
+      padding: 1.6rem 2rem 1rem; border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .buy-header h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 300; }
+    .buy-body { padding: 1.4rem 2rem 2rem; }
+    .buy-coin-info {
+      background: var(--bg-elevated); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1rem 1.2rem; margin-bottom: 1.4rem;
+    }
+    .buy-coin-name { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; margin-bottom: .2rem; }
+    .buy-coin-price { color: var(--gold); font-size: .9rem; font-weight: 500; }
+    .buy-field { display: flex; flex-direction: column; gap: .35rem; margin-bottom: 1rem; }
+    .buy-field label { font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--text-muted); }
+    .buy-field input { padding: .65rem .9rem; width: 100%; }
+    .buy-note { font-size: .72rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.2rem; }
+    .buy-actions { display: flex; gap: .8rem; }
+    /* ══ MODAL COMMANDES (admin) ══ */
+    .orders-overlay { z-index: 750; }
+    .orders-modal {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px;
+      width: 100%; max-width: 680px; max-height: 88vh; overflow-y: auto;
+      transform: translateY(20px); transition: transform .3s;
+    }
+    .overlay.open .orders-modal { transform: translateY(0); }
+    .orders-header {
+      padding: 1.6rem 2rem; border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      position: sticky; top: 0; background: var(--bg-card); z-index: 1;
+    }
+    .orders-header h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.35rem; font-weight: 300; }
+    .order-row {
+      padding: 1.1rem 2rem; border-bottom: 1px solid rgba(201,168,76,.07);
+      transition: background .15s;
+    }
+    .order-row:last-child { border-bottom: none; }
+    .order-row:hover { background: var(--bg-elevated); }
+    .order-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: .4rem; }
+    .order-coin { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--text); }
+    .order-price { font-size: .85rem; color: var(--gold); font-weight: 500; white-space: nowrap; }
+    .order-meta { font-size: .75rem; color: var(--text-muted); display: flex; gap: 1rem; flex-wrap: wrap; }
+    .order-status {
+      display: inline-block; font-size: .6rem; letter-spacing: .1em; text-transform: uppercase;
+      padding: .15rem .5rem; border-radius: 2px; font-weight: 500; margin-left: .5rem;
+    }
+    .order-status.attente  { background: rgba(201,168,76,.12); color: var(--gold);    border: 1px solid rgba(201,168,76,.25); }
+    .order-status.traite   { background: rgba(39,174,96,.1);   color: #2ECC71;        border: 1px solid rgba(39,174,96,.25); }
+    .order-actions { margin-top: .6rem; display: flex; gap: .5rem; }
+    .btn-mark-done {
+      padding: .28rem .7rem; font-size: .68rem; letter-spacing: .08em; text-transform: uppercase;
+      font-family: 'DM Sans', sans-serif; font-weight: 500; cursor: pointer; border-radius: 3px;
+      background: transparent; border: 1px solid var(--border); color: var(--text-muted); transition: all .15s;
+    }
+    .btn-mark-done:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-mark-sold {
+      padding: .28rem .7rem; font-size: .68rem; letter-spacing: .08em; text-transform: uppercase;
+      font-family: 'DM Sans', sans-serif; font-weight: 500; cursor: pointer; border-radius: 3px;
+      background: rgba(201,168,76,.1); border: 1px solid rgba(201,168,76,.25); color: var(--gold); transition: all .15s;
+    }
+    .btn-mark-sold:hover { background: rgba(201,168,76,.2); }
+    .orders-empty { padding: 3rem 2rem; text-align: center; color: var(--text-muted); font-size: .85rem; }
+    @media (max-width: 640px) {
+      .buy-modal { border-radius: 8px; }
+      .buy-body { padding: 1.2rem 1.2rem 1.5rem; }
+      .orders-modal { border-radius: 8px; max-height: 92vh; }
+      .order-row { padding: .9rem 1rem; }
+    }
+
     /* ══ BURGER MENU ══ */
     .desktop-only { display: inline-flex; }
     .btn-burger {
@@ -513,6 +625,7 @@
       </div>
       <!-- Boutons desktop -->
       <button class="btn-top desktop-only" id="adminBtn" style="display:none" onclick="openAdmin()">⚙ Utilisateurs</button>
+      <button class="btn-top desktop-only" id="ordersBtn" style="display:none" onclick="openOrders()">📦 Commandes</button>
       <button class="btn-top desktop-only" onclick="openStats()">📊 Statistiques</button>
       <button class="btn-top desktop-only" onclick="doLogout()">Déconnexion</button>
       <!-- Menu burger mobile -->
@@ -524,6 +637,7 @@
   <!-- Menu mobile déroulant -->
   <div class="mobile-menu" id="mobileMenu">
     <button class="mobile-menu-item" id="mAdminBtn" style="display:none" onclick="closeMenu();openAdmin()">⚙ Utilisateurs</button>
+    <button class="mobile-menu-item" id="mOrdersBtn" style="display:none" onclick="closeMenu();openOrders()">📦 Commandes</button>
     <button class="mobile-menu-item" onclick="closeMenu();openStats()">📊 Statistiques</button>
     <button class="mobile-menu-item mobile-menu-logout" onclick="closeMenu();doLogout()">Déconnexion</button>
   </div>
@@ -701,6 +815,44 @@
   </div>
 </div>
 
+<!-- BUY MODAL -->
+<div class="overlay buy-overlay" id="buyOverlay" onclick="closeBuyOverlay(event)">
+  <div class="buy-modal">
+    <div class="buy-header">
+      <h2>Demande d'achat</h2>
+      <button class="modal-close" onclick="closeBuy()">✕</button>
+    </div>
+    <div class="buy-body">
+      <div class="buy-coin-info">
+        <div class="buy-coin-name" id="buyCoingName">—</div>
+        <div class="buy-coin-price" id="buyCoinPrice">—</div>
+      </div>
+      <p class="buy-note">Votre coordonnée sera transmise au vendeur qui vous contactera pour finaliser la transaction.</p>
+      <div class="buy-field">
+        <label>Email ou numéro de téléphone *</label>
+        <input type="text" id="buy-contact" placeholder="ex. contact@mail.com ou 06 12 34 56 78" />
+      </div>
+      <div class="buy-actions">
+        <button class="btn btn-ghost" style="flex:1" onclick="closeBuy()">Annuler</button>
+        <button class="btn btn-primary" style="flex:2" id="buySubmitBtn" onclick="submitBuy()">Envoyer la demande</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ORDERS MODAL -->
+<div class="overlay orders-overlay" id="ordersOverlay" onclick="closeOrdersOverlay(event)">
+  <div class="orders-modal">
+    <div class="orders-header">
+      <h2>Commandes reçues</h2>
+      <button class="modal-close" onclick="closeOrders()">✕</button>
+    </div>
+    <div id="ordersList">
+      <div class="orders-empty">Chargement…</div>
+    </div>
+  </div>
+</div>
+
 <script>
 // ══════════════════════════════════════════════
 //  CONFIG
@@ -709,7 +861,8 @@ const SUPABASE_URL  = 'https://spollmzcbfatshuzuvfl.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNwb2xsbXpjYmZhdHNodXp1dmZsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY0NTkwNTgsImV4cCI6MjA5MjAzNTA1OH0.hP7rFOn5knbTmJLFja4rFa3auwRDbcinbQQnjpkilMo';
 const TABLE         = 'coins';
 const USERS_TABLE   = 'users';
-const ADMIN_NAME    = 'ivafan';      // compte qui devient automatiquement admin
+const ADMIN_NAME    = 'ivafan';
+const ORDERS_TABLE  = 'orders';      // compte qui devient automatiquement admin
 const SESSION_KEY   = 'numisma_v1'; // clé localStorage
 
 // ══════════════════════════════════════════════
@@ -880,6 +1033,8 @@ function showApp() {
 
   document.getElementById('adminBtn').style.display  = isAdmin() ? '' : 'none';
   document.getElementById('mAdminBtn').style.display = isAdmin() ? '' : 'none';
+  document.getElementById('ordersBtn').style.display  = isAdmin() ? '' : 'none';
+  document.getElementById('mOrdersBtn').style.display = isAdmin() ? '' : 'none';
   document.getElementById('addBtn').style.display    = isAdmin() ? '' : 'none';
 
   loadCoins();
@@ -1040,6 +1195,7 @@ function renderCoins() {
 
   grid.innerHTML = list.map(c => `
     <article class="card" onclick="openDetail('${c.id}')">
+      ${c.sold ? '<div class="card-sold-overlay"><div class="card-sold-stamp">VENDU</div></div>' : ''}
       <div class="card-imgs">
         ${c.img_avers  ? `<img class="coin-img" src="${c.img_avers}"  alt="Avers" />`  : `<div class="coin-img-placeholder">A</div>`}
         ${c.img_revers ? `<img class="coin-img" src="${c.img_revers}" alt="Revers" />` : `<div class="coin-img-placeholder">R</div>`}
@@ -1050,6 +1206,7 @@ function renderCoins() {
           ${c.year    ? `<span class="badge">${c.year}</span>`                         : ''}
           ${c.quality ? `<span class="badge">${c.quality}</span>`                      : ''}
           ${c.metal   ? `<span class="badge ${metalClass(c.metal)}">${c.metal}</span>` : ''}
+          ${c.sold    ? `<span class="badge-sold">Vendu</span>`                        : ''}
         </div>
         <div class="card-specs">
           ${c.facevalue                  ? `<span><strong>Faciale</strong> ${parseFloat(c.facevalue).toLocaleString('fr-FR')} €</span>` : ''}
@@ -1115,10 +1272,19 @@ function openDetail(id) {
     </div>
     ${c.note ? `<div style="padding:0 2rem 1.5rem;color:var(--text-muted);font-size:.85rem;font-style:italic;line-height:1.7">"${c.note}"</div>` : ''}
     ${isAdmin() ? `
-    <div style="padding:1rem 2rem 1.8rem;display:flex;gap:.8rem;justify-content:flex-end;border-top:1px solid var(--border)">
+    <div style="padding:1rem 2rem 1.8rem;display:flex;gap:.8rem;justify-content:flex-end;flex-wrap:wrap;border-top:1px solid var(--border)">
       <button class="btn btn-danger" onclick="deleteConfirm('${c.id}')">Supprimer</button>
+      ${!c.sold ? `<button class="btn btn-ghost" onclick="markAsSold('${c.id}')">Marquer vendu</button>` : `<button class="btn btn-ghost" onclick="markAsAvailable('${c.id}')">Remettre en vente</button>`}
       <button class="btn btn-primary" onclick="editCoin('${c.id}')">Modifier</button>
-    </div>` : ''}`;
+    </div>` : `
+    <div style="padding:1rem 2rem 1.8rem;border-top:1px solid var(--border)">
+      ${c.sold
+        ? `<div class="btn-sold-label">✕ Cette pièce a été vendue</div>`
+        : c.selling_price
+          ? `<button class="btn-buy" onclick="openBuy('${c.id}')">🛒 Acheter cette pièce — ${parseFloat(c.selling_price).toLocaleString('fr-FR',{minimumFractionDigits:2})} €</button>`
+          : ``
+      }
+    </div>`}`;
   document.getElementById('detailOverlay').classList.add('open');
 }
 
@@ -1412,6 +1578,169 @@ function renderStats() {
         <span class="legend-val">${d[1]} (${Math.round(d[1]/total_ds*100)}%)</span>
       </div>`).join('');
   });
+}
+
+// ══════════════════════════════════════════════
+//  ACHAT — modal
+// ══════════════════════════════════════════════
+let buyingCoinId = null;
+
+async function openBuy(coinId) {
+  const c = coins.find(x => x.id === coinId);
+  if (!c || c.sold) return;
+  buyingCoinId = coinId;
+
+  document.getElementById('buyCoingName').textContent = c.title;
+  document.getElementById('buyCoinPrice').textContent = c.selling_price
+    ? parseFloat(c.selling_price).toLocaleString('fr-FR', {minimumFractionDigits:2}) + ' €'
+    : '';
+
+  // Pré-remplir le contact si déjà sauvegardé
+  const contactInput = document.getElementById('buy-contact');
+  contactInput.value = currentUser?.contact || '';
+
+  document.getElementById('buyOverlay').classList.add('open');
+}
+
+function closeBuy() { document.getElementById('buyOverlay').classList.remove('open'); buyingCoinId = null; }
+function closeBuyOverlay(e) { if (e.target === document.getElementById('buyOverlay')) closeBuy(); }
+
+async function submitBuy() {
+  const contact = document.getElementById('buy-contact').value.trim();
+  if (!contact) { showToast({type:'error', title:'Coordonnée requise', message:'Entrez votre email ou numéro de téléphone.'}); return; }
+
+  const c = coins.find(x => x.id === buyingCoinId);
+  if (!c) return;
+
+  const btn = document.getElementById('buySubmitBtn');
+  btn.disabled = true; btn.textContent = 'Envoi…';
+
+  try {
+    // Sauvegarder le contact dans le profil utilisateur
+    if (currentUser.contact !== contact) {
+      await sb(`${USERS_TABLE}?id=eq.${currentUser.id}`, {method:'PATCH', body: JSON.stringify({contact})});
+      currentUser.contact = contact;
+      localStorage.setItem(SESSION_KEY, JSON.stringify(currentUser));
+    }
+
+    // Créer la commande
+    await sb(ORDERS_TABLE, {
+      method: 'POST',
+      prefer: 'return=representation',
+      body: JSON.stringify({
+        user_id:    currentUser.id,
+        username:   currentUser.username,
+        coin_id:    c.id,
+        coin_title: c.title,
+        price:      c.selling_price,
+        contact,
+        status:     'en attente'
+      })
+    });
+
+    closeBuy();
+    document.getElementById('detailOverlay').classList.remove('open');
+    showToast({type:'success', title:'Demande envoyée !', message:'Le vendeur vous contactera prochainement.'});
+  } catch(e) {
+    showToast({type:'error', title:'Erreur', message: e.message});
+  } finally {
+    btn.disabled = false; btn.textContent = 'Envoyer la demande';
+  }
+}
+
+// ══════════════════════════════════════════════
+//  MARQUER VENDU / DISPONIBLE
+// ══════════════════════════════════════════════
+async function markAsSold(coinId) {
+  const ok = await showToast({type:'confirm', title:'Marquer comme vendu ?', message:'La pièce sera affichée comme vendue sur la collection.', confirm:true});
+  if (!ok) return;
+  try {
+    await sb(`${TABLE}?id=eq.${coinId}`, {method:'PATCH', body: JSON.stringify({sold: true})});
+    const idx = coins.findIndex(x => x.id === coinId);
+    if (idx !== -1) coins[idx].sold = true;
+    document.getElementById('detailOverlay').classList.remove('open');
+    renderCoins();
+    showToast({type:'success', title:'Pièce marquée vendue', message:'Elle apparaît maintenant avec le badge VENDU.'});
+  } catch(e) {
+    showToast({type:'error', title:'Erreur', message: e.message});
+  }
+}
+
+async function markAsAvailable(coinId) {
+  try {
+    await sb(`${TABLE}?id=eq.${coinId}`, {method:'PATCH', body: JSON.stringify({sold: false})});
+    const idx = coins.findIndex(x => x.id === coinId);
+    if (idx !== -1) coins[idx].sold = false;
+    document.getElementById('detailOverlay').classList.remove('open');
+    renderCoins();
+    showToast({type:'success', title:'Pièce remise en vente', message:'Le badge VENDU a été retiré.'});
+  } catch(e) {
+    showToast({type:'error', title:'Erreur', message: e.message});
+  }
+}
+
+// ══════════════════════════════════════════════
+//  COMMANDES (admin)
+// ══════════════════════════════════════════════
+async function openOrders() {
+  if (!isAdmin()) return;
+  document.getElementById('ordersOverlay').classList.add('open');
+  await loadOrders();
+}
+function closeOrders() { document.getElementById('ordersOverlay').classList.remove('open'); }
+function closeOrdersOverlay(e) { if (e.target === document.getElementById('ordersOverlay')) closeOrders(); }
+
+async function loadOrders() {
+  const el = document.getElementById('ordersList');
+  el.innerHTML = '<div class="orders-empty">Chargement…</div>';
+  try {
+    const orders = await sb(`${ORDERS_TABLE}?select=*&order=created_at.desc`) || [];
+    if (!orders.length) { el.innerHTML = '<div class="orders-empty">Aucune commande pour le moment.</div>'; return; }
+
+    el.innerHTML = orders.map(o => `
+      <div class="order-row" id="order-${o.id}">
+        <div class="order-top">
+          <span class="order-coin">${o.coin_title}</span>
+          <span class="order-price">${o.price ? parseFloat(o.price).toLocaleString('fr-FR',{minimumFractionDigits:2})+' €' : '—'}</span>
+        </div>
+        <div class="order-meta">
+          <span>👤 ${o.username}</span>
+          <span>📞 ${o.contact}</span>
+          <span>🕐 ${new Date(o.created_at).toLocaleDateString('fr-FR')} à ${new Date(o.created_at).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})}</span>
+          <span class="order-status ${o.status === 'en attente' ? 'attente' : 'traite'}">${o.status}</span>
+        </div>
+        ${o.status === 'en attente' ? `
+        <div class="order-actions">
+          <button class="btn-mark-done" onclick="markOrderDone('${o.id}')">✓ Marquer traité</button>
+          <button class="btn-mark-sold" onclick="markOrderSold('${o.id}','${o.coin_id}')">🏷 Marquer pièce vendue</button>
+        </div>` : ''}
+      </div>`).join('');
+  } catch(e) {
+    el.innerHTML = `<div class="orders-empty" style="color:var(--red)">${e.message}</div>`;
+  }
+}
+
+async function markOrderDone(orderId) {
+  try {
+    await sb(`${ORDERS_TABLE}?id=eq.${orderId}`, {method:'PATCH', body: JSON.stringify({status:'traité'})});
+    showToast({type:'success', title:'Commande traitée', message:'Le statut a été mis à jour.'});
+    await loadOrders();
+  } catch(e) { showToast({type:'error', title:'Erreur', message: e.message}); }
+}
+
+async function markOrderSold(orderId, coinId) {
+  try {
+    // Marquer la commande traitée ET la pièce vendue en même temps
+    await Promise.all([
+      sb(`${ORDERS_TABLE}?id=eq.${orderId}`, {method:'PATCH', body: JSON.stringify({status:'traité'})}),
+      sb(`${TABLE}?id=eq.${coinId}`, {method:'PATCH', body: JSON.stringify({sold: true})})
+    ]);
+    const idx = coins.findIndex(x => x.id === coinId);
+    if (idx !== -1) coins[idx].sold = true;
+    renderCoins();
+    showToast({type:'success', title:'Vendu !', message:'La pièce est marquée vendue et la commande traitée.'});
+    await loadOrders();
+  } catch(e) { showToast({type:'error', title:'Erreur', message: e.message}); }
 }
 
 // ══════════════════════════════════════════════
