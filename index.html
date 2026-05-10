@@ -475,13 +475,29 @@
     .collection-code-chip:hover { border-color: var(--gold); }
     .collection-code-chip strong { color: var(--gold); font-family: 'Cormorant Garamond', serif; font-size: 1rem; letter-spacing: .2em; }
     .browse-mode-banner {
-      background: rgba(201,168,76,.06);
-      border-bottom: 1px solid var(--border);
-      padding: .65rem 2.5rem;
+      background: linear-gradient(90deg, rgba(201,168,76,.18), rgba(201,168,76,.08));
+      border-bottom: 2px solid var(--gold-dim);
+      padding: .9rem 2.5rem;
       display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-      font-size: .78rem; color: var(--text-muted);
+      font-size: .85rem; color: var(--text);
+      position: sticky; top: 54px; z-index: 90;
     }
+    .browse-mode-banner-left { display: flex; align-items: center; gap: .8rem; }
+    .browse-mode-banner-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(201,168,76,.2); border: 2px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0; overflow: hidden;
+    }
+    .browse-mode-banner-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .browse-mode-banner-text { line-height: 1.3; }
+    .browse-mode-banner-name { color: var(--gold); font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 400; }
+    .browse-mode-banner-hint { font-size: .7rem; color: var(--text-muted); }
     .browse-mode-banner strong { color: var(--gold); }
+    @media (max-width: 640px) {
+      .browse-mode-banner { top: 50px; padding: .7rem 1rem; }
+      .browse-mode-banner-hint { display: none; }
+    }
     @media (max-width: 640px) {
       .collection-banner { padding: .55rem 1rem; flex-direction: column; align-items: flex-start; gap: .4rem; }
       .browse-mode-banner { padding: .55rem 1rem; flex-direction: column; align-items: flex-start; gap: .4rem; }
@@ -912,8 +928,14 @@
 
   <!-- BANNER : mode navigation d'une autre collection -->
   <div class="browse-mode-banner" id="browseBanner" style="display:none">
-    <span>👁 Vous consultez la collection de <strong id="browseOwnerName">—</strong> — lecture seule</span>
-    <button class="btn-top" onclick="exitBrowseMode()">← Quitter</button>
+    <div class="browse-mode-banner-left">
+      <div class="browse-mode-banner-avatar" id="browseOwnerAvatar">👁</div>
+      <div class="browse-mode-banner-text">
+        <div class="browse-mode-banner-name">Collection de <span id="browseOwnerName">—</span></div>
+        <div class="browse-mode-banner-hint">Lecture seule · Vous ne pouvez pas modifier cette collection</div>
+      </div>
+    </div>
+    <button class="btn btn-ghost" style="font-size:.72rem" onclick="exitBrowseMode()">← Quitter la visite</button>
   </div>
 
   <!-- HERO -->
@@ -2220,7 +2242,7 @@ async function doBrowse() {
   btn.disabled = true; btn.textContent = 'Recherche…';
 
   try {
-    const results = await sb(`${USERS_TABLE}?collection_code=eq.${encodeURIComponent(code)}&select=id,username,collection_code`);
+    const results = await sb(`${USERS_TABLE}?collection_code=eq.${encodeURIComponent(code)}&select=id,username,collection_code,avatar`);
     if (!results?.length) {
       showToast({type:'error', title:'Collection introuvable', message:`Aucune collection avec le code "${code}".`});
       return;
@@ -2236,6 +2258,13 @@ async function doBrowse() {
     document.getElementById('myCollectionBanner').style.display = 'none';
     document.getElementById('browseBanner').style.display = 'flex';
     document.getElementById('browseOwnerName').textContent = owner.username;
+    // Avatar du propriétaire
+    const avatarEl = document.getElementById('browseOwnerAvatar');
+    if (owner.avatar) {
+      avatarEl.innerHTML = `<img src="${owner.avatar}" alt="${owner.username}" />`;
+    } else {
+      avatarEl.textContent = owner.username.charAt(0).toUpperCase();
+    }
 
     // Topbar
     document.getElementById('tbUser').textContent = 'Visiteur';
@@ -2248,8 +2277,9 @@ async function doBrowse() {
     document.getElementById('addBtn').style.display     = 'none';
     document.getElementById('myCollectionBanner').style.display = 'none';
 
-    // Hero
-    document.querySelector('.hero-sub').textContent = `Collection de ${owner.username}`;
+    // Hero — bien différencier la collection visitée
+    document.querySelector('.hero-title').innerHTML = `La <em>Collection</em><br>de ${owner.username}`;
+    document.querySelector('.hero-sub').textContent = 'Vous consultez cette collection en mode visiteur';
 
     // Charger les pièces du propriétaire
     await loadCoins(owner.id);
@@ -2266,6 +2296,7 @@ function exitBrowseMode() {
   document.getElementById('app').style.display = 'none';
   document.getElementById('browseBanner').style.display = 'none';
   document.getElementById('b-code').value = '';
+  document.querySelector('.hero-title').innerHTML = 'Ma <em>Collection</em><br>Numismatique';
   document.querySelector('.hero-sub').textContent = 'Version 3.6';
   coins = [];
 
